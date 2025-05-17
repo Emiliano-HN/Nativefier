@@ -1,4 +1,4 @@
-Note: Nativefier is unmaintained, please see https://github.com/nativefier/nativefier/issues/1577.
+Note: Nativefier is unmaintained, please see 
 
 # Nativefier
 
