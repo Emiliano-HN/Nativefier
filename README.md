@@ -1,101 +1,103 @@
-Note: Nativefier is unmaintained, please see 
+Nota: Nativefier ya no tiene mantenimiento, por favor revisa otras alternativas.
 
-# Nativefier
+Nativefier
 
-![Example of Nativefier app in the macOS dock](.github/dock-screenshot.png)
 
-You want to make a native-looking wrapper for WhatsApp Web (or any web page).
+Quieres crear un contenedor con apariencia nativa para WhatsApp Web (o cualquier página web).
 
-```bash
+bash
+Copiar
+Editar
 nativefier 'web.whatsapp.com'
-```
 
-![Walkthrough animation](.github/nativefier-walkthrough.gif)
 
-You're done.
+Y ya terminaste.
 
-## Introduction
+Introducción
+Nativefier es una herramienta de línea de comandos para crear fácilmente una “aplicación de escritorio” para cualquier sitio web con el mínimo esfuerzo. Las aplicaciones se empaquetan usando Electron
+(que usa Chromium internamente) en un ejecutable del sistema operativo (.app, .exe, etc.)
+que funciona en Windows, macOS y Linux.
 
-Nativefier is a command-line tool to easily create a “desktop app” for any web site
-with minimal fuss. Apps are wrapped by [Electron](https://www.electronjs.org/)
-(which uses Chromium under the hood) in an OS executable (`.app`, `.exe`, etc)
-usable on Windows, macOS and Linux.
+Creé esto porque me cansé de tener que usar Alt-Tab para volver al navegador y luego buscar
+entre muchas pestañas abiertas cuando usaba Messenger o
+WhatsApp Web (hilo en HN). Funcionalidades de Nativefier:
 
-I built this because I grew tired of having to Alt-Tab to my browser and then search
-through numerous open tabs when using Messenger or
-Whatsapp Web ([HN thread](https://news.ycombinator.com/item?id=10930718)). Nativefier features:
+Recuperación automática del ícono / nombre de la app
 
-- Automatically retrieval of app icon / name
-- Injection of custom JS & CSS
-- Many more, see the [API docs](API.md) or `nativefier --help`
+Inyección de JS y CSS personalizados
 
-## Installation
+Muchas más, revisa la documentación de la API o ejecuta nativefier --help
 
-Install Nativefier globally with `npm install -g nativefier` . Requirements:
+Instalación
+Instala Nativefier globalmente con npm install -g nativefier . Requisitos:
 
-- macOS 10.13+ / Windows / Linux
-- [Node.js](https://nodejs.org/) ≥ 16.9 and npm ≥ 7.10
+macOS 10.13+ / Windows / Linux
 
-Optional dependencies:
+Node.js ≥ 16.9 y npm ≥ 7.10
 
-- [ImageMagick](http://www.imagemagick.org/) or [GraphicsMagick](http://www.graphicsmagick.org/) to convert icons.
-  Be sure `convert` + `identify` or `gm` are in your `$PATH`.
-- [Wine](https://www.winehq.org/) to build Windows apps from non-Windows platforms.
-  Be sure `wine` is in your `$PATH`.
+Dependencias opcionales:
 
-<details>
-  <summary>Or install with Docker (click to expand)</summary>
+ImageMagick o GraphicsMagick para convertir íconos.
+Asegúrate de que convert + identify o gm estén en tu $PATH.
 
-  - Pull the image from [Docker Hub](https://hub.docker.com/r/nativefier/nativefier): `docker pull nativefier/nativefier`
-  - ... or build it yourself: `docker build -t local/nativefier .`
-    (in this case, replace `nativefier/` in the below examples with `local/`)
+Wine para construir apps de Windows desde plataformas que no sean Windows.
+Asegúrate de que wine esté en tu $PATH.
 
-  By default, `nativefier --help` will be executed.
-  To build e.g. a Gmail app into `~/nativefier-apps`,
+<details> <summary>O instalar con Docker (haz clic para expandir)</summary>
+Descarga la imagen desde Docker Hub: docker pull nativefier/nativefier
 
-  ```bash
-  docker run --rm -v ~/nativefier-apps:/target/ nativefier/nativefier https://mail.google.com/ /target/
-  ```
+... o constrúyela tú mismo: docker build -t local/nativefier .
+(en este caso, reemplaza nativefier/ en los ejemplos de abajo con local/)
 
-  You can pass Nativefier flags, and mount volumes to pass local files. E.g. to use an icon,
+Por defecto, se ejecutará nativefier --help.
+Para construir, por ejemplo, una app de Gmail en ~/nativefier-apps,
 
-  ```bash
-  docker run --rm -v ~/my-icons-folder/:/src -v $TARGET-PATH:/target nativefier/nativefier --icon /src/icon.png --name whatsApp -p linux -a x64 https://web.whatsapp.com/ /target/
-  ```
+bash
+Copiar
+Editar
+docker run --rm -v ~/nativefier-apps:/target/ nativefier/nativefier https://mail.google.com/ /target/
+Puedes pasarle opciones a Nativefier y montar volúmenes para pasar archivos locales. Por ejemplo, para usar un ícono:
+
+bash
+Copiar
+Editar
+docker run --rm -v ~/mi-carpeta-de-iconos/:/src -v $RUTA-DESTINO:/target nativefier/nativefier --icon /src/icon.png --name whatsApp -p linux -a x64 https://web.whatsapp.com/ /target/
+</details> <details> <summary>O instalar con Snap y AUR (haz clic para expandir)</summary>
+Estos repositorios no son mantenidos por los desarrolladores de Nativefier; úsalos bajo tu propio riesgo.
+Por tu seguridad, inspecciona el script de construcción.
+
+Snap
+
+AUR
+
 </details>
+Uso
+Para crear una app para medium.com, simplemente:
 
-<details>
-  <summary>Or install with Snap & AUR (click to expand)</summary>
+bash
+Copiar
+Editar
+nativefier 'medium.com'
+Nativefier intentará determinar el nombre de la app, así como otras opciones que puedes sobrescribir.
+Por ejemplo, para sobrescribir el nombre:
 
-  These repos are *not* managed by Nativefier maintainers; use at your own risk.
-  If using them, for your security, please inspect the build script.
+bash
+Copiar
+Editar
+nativefier --name 'Mi App de Medium' 'medium.com'
+Lee la documentación de la API o ejecuta nativefier --help
+para aprender sobre los flags disponibles y cómo configurar tu app.
 
-  - [Snap](https://snapcraft.io/nativefier)
-  - [AUR](https://aur.archlinux.org/packages/nodejs-nativefier)
-</details>
+Solución de problemas
+Revisa CATALOG.md para ideas y soluciones específicas para sitios, aportadas por la comunidad.
 
-## Usage
+Si eso no ayuda, revisa nuestro seguimiento de problemas.
 
-To create an app for medium.com, simply `nativefier 'medium.com'`
+Desarrollo
+¡Se agradece ayuda en errores y
+solicitudes de funciones!
 
-Nativefier will try to determine the app name, and well as other options that you
-can override. For example, to override the name, `nativefier --name 'My Medium App' 'medium.com'`
+Documentación: Desarrollo / compilación / hackeo, API / opciones,
+Registro de cambios
 
-**Read the [API docs](API.md) or run `nativefier --help`**
-to learn about command-line flags and configure your app.
-
-## Troubleshooting
-
-**See [CATALOG.md](CATALOG.md) for site-specific ideas & workarounds contributed by the community**.
-
-If this doesn’t help, go look at our [issue tracker](https://github.com/nativefier/nativefier/issues).
-
-## Development
-
-Help welcome on [bugs](https://github.com/nativefier/nativefier/issues?q=is%3Aopen+is%3Aissue+label%3Abug) and
-[feature requests](https://github.com/nativefier/nativefier/issues?q=is%3Aopen+is%3Aissue+label%3Afeature-request)!
-
-Docs: [Developer / build / hacking](HACKING.md), [API / flags](API.md),
-[Changelog](CHANGELOG.md).
-
-License: [MIT](LICENSE.md).
+Licencia: MIT
