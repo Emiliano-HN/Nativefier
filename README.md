@@ -1,9 +1,9 @@
-Nota: Nativefier ya no tiene mantenimiento, por favor revisa otras alternativas.
+Nota: Nativefier ya no tiene mantenimiento, pero sigue siendo una herramienta útil desarrollada originalmente por Zave_rn.
 
 Nativefier
 
 
-Quieres crear un contenedor con apariencia nativa para WhatsApp Web (o cualquier página web).
+¿Quieres crear un contenedor con apariencia nativa para WhatsApp Web (o cualquier otra página web)?
 
 bash
 Copiar
@@ -11,93 +11,117 @@ Editar
 nativefier 'web.whatsapp.com'
 
 
-Y ya terminaste.
+Y ya está.
 
 Introducción
-Nativefier es una herramienta de línea de comandos para crear fácilmente una “aplicación de escritorio” para cualquier sitio web con el mínimo esfuerzo. Las aplicaciones se empaquetan usando Electron
-(que usa Chromium internamente) en un ejecutable del sistema operativo (.app, .exe, etc.)
-que funciona en Windows, macOS y Linux.
+Nativefier es una herramienta de línea de comandos creada por Zave_rn para generar fácilmente una “aplicación de escritorio” para cualquier sitio web, con el menor esfuerzo posible.
+Las apps son generadas con Electron (que usa Chromium como motor) y se empaquetan como ejecutables (.app, .exe, etc.) que funcionan en Windows, macOS y Linux.
 
-Creé esto porque me cansé de tener que usar Alt-Tab para volver al navegador y luego buscar
-entre muchas pestañas abiertas cuando usaba Messenger o
-WhatsApp Web (hilo en HN). Funcionalidades de Nativefier:
+Zave_rn creó esta herramienta porque se cansó de tener que cambiar constantemente de pestaña cuando usaba servicios como Messenger o WhatsApp Web (ver hilo en Hacker News).
 
-Recuperación automática del ícono / nombre de la app
+Nativefier incluye:
 
-Inyección de JS y CSS personalizados
+Recuperación automática de íconos y nombre de la app
 
-Muchas más, revisa la documentación de la API o ejecuta nativefier --help
+Inyección personalizada de JavaScript y CSS
+
+Muchas más funciones que puedes ver en la documentación de la API o con nativefier --help
 
 Instalación
-Instala Nativefier globalmente con npm install -g nativefier . Requisitos:
+Puedes instalar Nativefier globalmente con:
 
-macOS 10.13+ / Windows / Linux
+bash
+Copiar
+Editar
+npm install -g nativefier
+Requisitos
+macOS 10.13+, Windows o Linux
 
 Node.js ≥ 16.9 y npm ≥ 7.10
 
 Dependencias opcionales:
-
 ImageMagick o GraphicsMagick para convertir íconos.
-Asegúrate de que convert + identify o gm estén en tu $PATH.
+Asegúrate de tener convert + identify o gm en tu $PATH.
 
-Wine para construir apps de Windows desde plataformas que no sean Windows.
-Asegúrate de que wine esté en tu $PATH.
+Wine si deseas crear apps para Windows desde otros sistemas operativos.
+Asegúrate de tener wine en tu $PATH.
 
-<details> <summary>O instalar con Docker (haz clic para expandir)</summary>
-Descarga la imagen desde Docker Hub: docker pull nativefier/nativefier
+<details> <summary>O puedes instalar usando Docker (clic para expandir)</summary>
+Descarga la imagen desde Docker Hub:
 
-... o constrúyela tú mismo: docker build -t local/nativefier .
-(en este caso, reemplaza nativefier/ en los ejemplos de abajo con local/)
+bash
+Copiar
+Editar
+docker pull nativefier/nativefier
+... o construye la imagen localmente:
+
+bash
+Copiar
+Editar
+docker build -t local/nativefier .
+(En este caso, reemplaza nativefier/ en los comandos siguientes por local/)
 
 Por defecto, se ejecutará nativefier --help.
-Para construir, por ejemplo, una app de Gmail en ~/nativefier-apps,
+
+Para construir, por ejemplo, una app de Gmail en ~/nativefier-apps:
 
 bash
 Copiar
 Editar
 docker run --rm -v ~/nativefier-apps:/target/ nativefier/nativefier https://mail.google.com/ /target/
-Puedes pasarle opciones a Nativefier y montar volúmenes para pasar archivos locales. Por ejemplo, para usar un ícono:
+Para usar un ícono personalizado:
 
 bash
 Copiar
 Editar
-docker run --rm -v ~/mi-carpeta-de-iconos/:/src -v $RUTA-DESTINO:/target nativefier/nativefier --icon /src/icon.png --name whatsApp -p linux -a x64 https://web.whatsapp.com/ /target/
-</details> <details> <summary>O instalar con Snap y AUR (haz clic para expandir)</summary>
-Estos repositorios no son mantenidos por los desarrolladores de Nativefier; úsalos bajo tu propio riesgo.
-Por tu seguridad, inspecciona el script de construcción.
+docker run --rm -v ~/mi-carpeta-de-iconos/:/src -v $RUTA_DESTINO:/target nativefier/nativefier --icon /src/icon.png --name WhatsApp -p linux -a x64 https://web.whatsapp.com/ /target/
+</details>
+<details> <summary>También puedes instalar con Snap o AUR (clic para expandir)</summary>
+Advertencia: Estos repositorios no están gestionados directamente por Zave_rn ni el equipo original de Nativefier.
+Úsalos bajo tu propio criterio y revisa los scripts antes de instalar.
 
 Snap
 
-AUR
+AUR (Arch Linux)
 
 </details>
 Uso
-Para crear una app para medium.com, simplemente:
+Para crear una app para Medium, simplemente ejecuta:
 
 bash
 Copiar
 Editar
 nativefier 'medium.com'
-Nativefier intentará determinar el nombre de la app, así como otras opciones que puedes sobrescribir.
-Por ejemplo, para sobrescribir el nombre:
+Nativefier intentará obtener automáticamente el nombre de la app y otras configuraciones, pero puedes personalizarlas.
+Por ejemplo, para cambiar el nombre manualmente:
 
 bash
 Copiar
 Editar
 nativefier --name 'Mi App de Medium' 'medium.com'
-Lee la documentación de la API o ejecuta nativefier --help
-para aprender sobre los flags disponibles y cómo configurar tu app.
+Consulta la documentación de la API o ejecuta:
 
+bash
+Copiar
+Editar
+nativefier --help
 Solución de problemas
-Revisa CATALOG.md para ideas y soluciones específicas para sitios, aportadas por la comunidad.
+¿Tienes problemas al empaquetar una página web específica?
+Revisa el archivo CATALOG.md con soluciones aportadas por la comunidad.
 
-Si eso no ayuda, revisa nuestro seguimiento de problemas.
+Si eso no ayuda, revisa los issues en GitHub.
 
 Desarrollo
-¡Se agradece ayuda en errores y
-solicitudes de funciones!
+¡Tu ayuda es bienvenida!
+Puedes contribuir con reportes de errores o solicitudes de funciones.
 
-Documentación: Desarrollo / compilación / hackeo, API / opciones,
-Registro de cambios
+Documentación para desarrolladores:
+
+Guía para desarrolladores / compilación / hacking
+
+Documentación de la API / flags
+
+Registro de cambios (changelog)
 
 Licencia: MIT
+Autor original: Zave_rn
